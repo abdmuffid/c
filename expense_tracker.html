@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catatan Pengeluaran</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #add8e6; /* Warna biru muda */
+        }
+
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        label {
+            margin-bottom: 8px;
+        }
+
+        input {
+            padding: 8px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #008080; /* Warna hijau tua */
+            color: white;
+        }
+
+        #expense-form {
+            display: none;
+        }
+
+        #add-button {
+            background-color: #008080; /* Warna hijau tua */
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        #add-button:hover {
+            background-color: #006666; /* Warna hijau tua yang sedikit lebih gelap */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Catatan Pengeluaran</h1>
+        <button id="add-button" onclick="toggleForm()">+</button>
+        <form id="expense-form">
+            <label for="description">Deskripsi:</label>
+            <input type="text" id="description" required>
+
+            <label for="amount">Jumlah (IDR):</label>
+            <input type="number" id="amount" required>
+
+            <button type="button" onclick="addExpense()">Tambah Pengeluaran</button>
+        </form>
+
+        <h2>Daftar Pengeluaran</h2>
+        <table id="expense-table">
+            <thead>
+                <tr>
+                    <th>Deskripsi</th>
+                    <th>Jumlah (IDR)</th>
+                </tr>
+            </thead>
+            <tbody id="expense-list"></tbody>
+        </table>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            toggleForm();
+        });
+
+        function addExpense() {
+            var description = document.getElementById('description').value;
+            var amount = parseFloat(document.getElementById('amount').value.replace(/,/g, ''));
+
+            if (description && !isNaN(amount)) {
+                var expenseList = document.getElementById('expense-list');
+
+                var listItem = document.createElement('tr');
+                listItem.innerHTML = `<td>${description}</td><td>IDR ${amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>`;
+                expenseList.appendChild(listItem);
+
+                // Reset the form
+                document.getElementById('expense-form').reset();
+                toggleForm();
+            } else {
+                alert('Mohon masukkan deskripsi dan jumlah yang valid.');
+            }
+        }
+
+        function toggleForm() {
+            var form = document.getElementById('expense-form');
+            var addButton = document.getElementById('add-button');
+
+            if (form.style.display === 'none') {
+                form.style.display = 'block';
+                addButton.style.display = 'none';
+            } else {
+                form.style.display = 'none';
+                addButton.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
